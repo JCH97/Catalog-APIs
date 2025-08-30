@@ -29,7 +29,7 @@ export class CreateProductUseCase {
                 payload: product.unwrap().toPrimitives(),
             }));
 
-            return Result.Ok(product);
+            return product
 
         } catch (e: any) {
             return Result.Fail(AppError.Validation(e?.message || 'Failed to create product'));

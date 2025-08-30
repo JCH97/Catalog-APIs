@@ -14,6 +14,7 @@ import {GetProductUseCase} from '../../application/use-cases/get-product.usecase
 import {GetAllProductsUsecase} from '../../application/use-cases/get-all-products.usecase';
 import {createAuditByProductIdLoader} from '../../infra/loaders/audit-by-productId.loader';
 import {createProductByIdLoader} from '../../infra/loaders/product-by-Id.loader';
+import {SignInUseCase} from "../../application/use-cases/signin.usecase";
 
 export async function startGraphQLServer() {
     await connectMongo();
@@ -27,6 +28,7 @@ export async function startGraphQLServer() {
         approveProduct: new ApproveProductUseCase(productRepo, auditRepo, publisher),
         getProduct: new GetProductUseCase(productRepo),
         listProducts: new GetAllProductsUsecase(productRepo),
+        signIn: new SignInUseCase(),
     };
 
     const server = new ApolloServer({

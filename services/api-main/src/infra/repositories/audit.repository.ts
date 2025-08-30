@@ -5,7 +5,7 @@ import {AuditMapper} from "../mappers/audit.mapper";
 export const auditRepository = (): IAuditRepository => ({
 
     async add(entry) {
-        const doc: any = entry.toPrimitives ? entry.toPrimitives() : entry;
+        const doc: any = entry.toPrimitives();
         await new AuditModel(doc).save();
     },
 

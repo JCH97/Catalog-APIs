@@ -1,7 +1,6 @@
 import {gql} from 'apollo-server-express';
 import GraphQLJSON from 'graphql-type-json';
 import {ProductMapper} from "../../infra/mappers/product.mapper";
-// import { AuditModel } from '../../infra/persistence/mongooseModels.js';
 
 // GraphQL type definitions and resolvers for products
 export const typeDefs = gql`
@@ -36,6 +35,12 @@ export const typeDefs = gql`
     version: Int!
     history: [Audit!]!
   }
+  type TokenResponse {
+    token: String!
+  }
+  input SignIn {
+    role: Role!
+  }
   input NetWeightInput { value: Float unit: String }
   input CreateProductInput { gtin: String!, name: String!, description: String, brand: String, manufacturer: String, netWeight: NetWeightInput }
   input UpdateProductInput { name: String, description: String, brand: String, manufacturer: String, netWeight: NetWeightInput }
@@ -47,6 +52,7 @@ export const typeDefs = gql`
     createProduct(input: CreateProductInput!): Product!
     updateProduct(id: ID!, input: UpdateProductInput!): Product!
     approveProduct(id: ID!): Product!
+    signIn(input: SignIn!): TokenResponse!
   }
 `;
 
@@ -98,5 +104,8 @@ export const resolvers = {
             const p = res.unwrap();
             return ProductMapper.domainToDto(p);
         },
+        signIn: async (_: any, { input }: any, context: any) => {
+            return await context.uc.signIn.execute(input.role);
+        }
     },
 };
