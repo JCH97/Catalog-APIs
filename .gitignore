@@ -1,0 +1,57 @@
+# Dependencias
+node_modules/
+
+# Logs y PIDs
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Cobertura / pruebas
+coverage/
+.nyc_output/
+jest-*
+
+# Cachés de linters y herramientas
+.eslintcache
+.cache/
+
+# Compilados / artefactos de build
+dist/
+build/
+out/
+tmp/
+temp/
+
+# TypeScript (si aplica)
+*.tsbuildinfo
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+!.env.schema
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Config de editores/IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Otros (opcional, descomenta si los usas)
+# .npm/
+# .yarn/
+# .parcel-cache/

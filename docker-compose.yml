@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  api-main:
+    build: ./services/api-main
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/products
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=z1knEA3UDk6Lv0AcOhjE
+    depends_on:
+      - mongo
+      - redis
+  api-search:
+    build: ./services/api-search
+    ports:
+      - "5000:5000"
+    environment:
+      - ELASTIC_URL=http://elasticsearch:9200
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - elasticsearch
+      - redis
+  mongo:
+    image: mongo:6.0.26-jammy
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+volumes:
+  mongo_data:
+  redis_data:
+  es_data:

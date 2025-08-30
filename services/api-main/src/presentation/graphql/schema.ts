@@ -1,0 +1,102 @@
+import {gql} from 'apollo-server-express';
+import GraphQLJSON from 'graphql-type-json';
+import {ProductMapper} from "../../infra/mappers/product.mapper";
+// import { AuditModel } from '../../infra/persistence/mongooseModels.js';
+
+// GraphQL type definitions and resolvers for products
+export const typeDefs = gql`
+  scalar JSON
+  enum Role { PROVIDER EDITOR }
+  enum ProductStatus { PENDING_REVIEW PUBLISHED }
+  enum AuditAction { CREATED UPDATED APPROVED }
+  type NetWeight { value: Float unit: String }
+  type ChangeItem { field: String before: String after: String }
+  type Audit { 
+    productId: ID! 
+    action: AuditAction! 
+    changedAt: String!
+    changedByRole: String! 
+    changes: [ChangeItem!]! 
+    version: Int!
+    productBeforeSnapshot: JSON
+    productAfterSnapshot: JSON
+  }
+  type Product {
+    id: ID!
+    gtin: String!
+    name: String!
+    description: String
+    brand: String
+    manufacturer: String
+    netWeight: NetWeight
+    status: ProductStatus!
+    createdByRole: Role!
+    createdAt: String!
+    updatedAt: String!
+    version: Int!
+    history: [Audit!]!
+  }
+  input NetWeightInput { value: Float unit: String }
+  input CreateProductInput { gtin: String!, name: String!, description: String, brand: String, manufacturer: String, netWeight: NetWeightInput }
+  input UpdateProductInput { name: String, description: String, brand: String, manufacturer: String, netWeight: NetWeightInput }
+  type Query {
+    products: [Product!]!
+    product(id: ID!): Product
+  }
+  type Mutation {
+    createProduct(input: CreateProductInput!): Product!
+    updateProduct(id: ID!, input: UpdateProductInput!): Product!
+    approveProduct(id: ID!): Product!
+  }
+`;
+
+export const resolvers = {
+    JSON: GraphQLJSON,
+    Product: {
+        history: async (parent: any, _args: any, context: any) => {
+            return await context.loaders.auditByProductId.load(parent.id);
+        },
+    },
+    Query: {
+        products: async (_: any, __: any, context: any) => {
+            const res = await context.uc.listProducts.execute();
+            const products = res.unwrap();
+            return products.map((p: any) => ProductMapper.domainToDto(p));
+        },
+        product: async (_: any, {id}: any, context: any) => {
+            const cached = await context.loaders.productById.load(id);
+            if (cached) return ProductMapper.domainToDto(cached);
+
+            const res = await context.uc.getProduct.execute(id);
+            if (res.isFailure) return null;
+
+            return ProductMapper.domainToDto(res.unwrap());
+        },
+    },
+    Mutation: {
+        createProduct: async (_: any, {input}: any, context: any) => {
+            if (!context.user) throw new Error('Unauthenticated');
+
+            const res = await context.uc.createProduct.execute(input, context.user.role);
+
+            const p = res.unwrap();
+            return ProductMapper.domainToDto(p);
+        },
+        updateProduct: async (_: any, {id, input}: any, context: any) => {
+            if (!context.user) throw new Error('Unauthenticated');
+
+            const res = await context.uc.updateProduct.execute(id, input, context.user.role);
+
+            const p = res.unwrap();
+            return ProductMapper.domainToDto(p);
+        },
+        approveProduct: async (_: any, {id}: any, context: any) => {
+            if (!context.user) throw new Error('Unauthenticated');
+
+            const res = await context.uc.approveProduct.execute(id, context.user.role);
+
+            const p = res.unwrap();
+            return ProductMapper.domainToDto(p);
+        },
+    },
+};
