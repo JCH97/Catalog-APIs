@@ -36,8 +36,8 @@ export async function startGraphQLServer() {
         resolvers,
         context: ({req}: { req: any }) => {
             const loaders = {
-                auditByProductId: createAuditByProductIdLoader(),
-                productById: createProductByIdLoader(),
+                getAuditByProductId: createAuditByProductIdLoader(),
+                getProductById: createProductByIdLoader(),
             };
             return {user: (req as any).user, uc, loaders};
         },

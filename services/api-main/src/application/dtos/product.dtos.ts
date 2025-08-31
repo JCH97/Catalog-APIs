@@ -4,7 +4,7 @@ export type NetWeightOutputDTO = {
 };
 
 export type ProductDto = {
-    id: string;
+    _id: string;
     gtin: string;
     name: string;
     description?: string | null;

@@ -13,7 +13,7 @@ export class ProductMapper {
     public static domainToDto(p: ProductEntity): ProductDto {
         const d = p.toPrimitives();
         return {
-            id: d.id,
+            _id: d._id,
             gtin: d.gtin,
             name: d.name,
             description: d.description ?? null,

@@ -21,7 +21,7 @@ export const typeDefs = gql`
     productAfterSnapshot: JSON
   }
   type Product {
-    id: ID!
+    _id: ID!
     gtin: String!
     name: String!
     description: String
@@ -60,7 +60,7 @@ export const resolvers = {
     JSON: GraphQLJSON,
     Product: {
         history: async (parent: any, _args: any, context: any) => {
-            return await context.loaders.auditByProductId.load(parent.id);
+            return await context.loaders.getAuditByProductId.load(parent._id);
         },
     },
     Query: {
@@ -70,14 +70,9 @@ export const resolvers = {
             return products.map((p: any) => ProductMapper.domainToDto(p));
         },
         product: async (_: any, {id}: any, context: any) => {
-            const cached = await context.loaders.productById.load(id);
-            if (cached) return ProductMapper.domainToDto(cached);
-
-            const res = await context.uc.getProduct.execute(id);
-            if (res.isFailure) return null;
-
-            return ProductMapper.domainToDto(res.unwrap());
-        },
+            const product = await context.loaders.getProductById.load(id);
+            return product ? ProductMapper.domainToDto(product) : null;
+        }
     },
     Mutation: {
         createProduct: async (_: any, {input}: any, context: any) => {
@@ -104,7 +99,7 @@ export const resolvers = {
             const p = res.unwrap();
             return ProductMapper.domainToDto(p);
         },
-        signIn: async (_: any, { input }: any, context: any) => {
+        signIn: async (_: any, {input}: any, context: any) => {
             return await context.uc.signIn.execute(input.role);
         }
     },

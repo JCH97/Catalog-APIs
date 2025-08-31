@@ -43,7 +43,7 @@ export class UpdateProductUseCase {
                 }
             }
             await this.auditRepo.add(AuditEntity.create({
-                productId: p.id,
+                productId: p.plainId,
                 action: AuditAction.UPDATED,
                 changedAt: p.updatedAt,
                 changedByRole: actor,

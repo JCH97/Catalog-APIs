@@ -7,7 +7,6 @@ export class GetAllProductsUsecase {
 
     async execute() {
         const items = await this.repo.findAll();
-
         return Result.Ok(items);
     }
 }

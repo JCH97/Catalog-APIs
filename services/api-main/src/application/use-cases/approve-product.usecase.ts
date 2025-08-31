@@ -26,7 +26,7 @@ export class ApproveProductUseCase {
 
             await this.repo.update(p);
             await this.auditRepo.add(AuditEntity.create({
-                productId: p.id,
+                productId: p.plainId,
                 action: AuditAction.APPROVED,
                 changedAt: p.updatedAt,
                 changedByRole: Role.EDITOR,

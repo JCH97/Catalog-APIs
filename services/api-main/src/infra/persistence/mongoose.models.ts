@@ -6,8 +6,7 @@ const NetWeightSchema = new Schema({
 }, {_id: false});
 
 const ProductSchema = new Schema({
-    id: {type: String, required: true, unique: true},
-    gtin: {type: String, required: true},
+    gtin: {type: String, required: true, unique: true},
     name: {type: String, required: true},
     description: {type: String},
     brand: {type: String},

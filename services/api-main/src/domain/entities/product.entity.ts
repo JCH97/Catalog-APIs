@@ -2,6 +2,7 @@ import {Role} from '../enums/role';
 import {ProductStatus} from '../enums/product-status.enum';
 import {Result} from "../../shared/result/result";
 import {AppError} from "../../shared/errors";
+import {ObjectId} from "mongodb";
 
 export type NetWeight = {
     value: number;
@@ -9,7 +10,7 @@ export type NetWeight = {
 }
 
 export type ProductProps = {
-    id: string;
+    _id: string;
     gtin: string;
     name: string;
     description?: string | null;
@@ -24,7 +25,7 @@ export type ProductProps = {
 };
 
 export class ProductEntity {
-    private _id: string;
+    private readonly _id: string;
     private _gtin: string;
     private _name: string;
     private _description?: string | null;
@@ -38,7 +39,7 @@ export class ProductEntity {
     private _version: number;
 
     private constructor(props: ProductProps) {
-        this._id = props.id;
+        this._id = props._id;
         this._gtin = props.gtin;
         this._name = props.name;
         this._description = props.description ?? null;
@@ -74,7 +75,7 @@ export class ProductEntity {
         const status: ProductStatus = actor === Role.EDITOR ? ProductStatus.PUBLISHED : ProductStatus.PENDING_REVIEW;
 
         const p = new ProductEntity({
-            id: input.gtin,
+            _id: new ObjectId().toString(),
             gtin: input.gtin,
             name: input.name.trim(),
             description: input.description ?? null,
@@ -94,6 +95,7 @@ export class ProductEntity {
     static hydrate(data: ProductProps): Result<ProductEntity> {
         return Result.Ok(new ProductEntity({
             ...data,
+            _id: data._id.toString(),
             createdAt: new Date(data.createdAt),
             updatedAt: new Date(data.updatedAt)
         }));
@@ -101,7 +103,7 @@ export class ProductEntity {
 
     toPrimitives(): ProductProps {
         return {
-            id: this._id,
+            _id: this._id,
             gtin: this._gtin,
             name: this._name,
             description: this._description ?? null,
@@ -161,7 +163,7 @@ export class ProductEntity {
         return Result.Ok();
     }
 
-    get id() {
+    get plainId() {
         return this._id;
     }
 

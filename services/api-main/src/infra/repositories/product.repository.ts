@@ -1,6 +1,7 @@
 import {ProductModel} from '../persistence/mongoose.models';
 import type {IProductRepository} from '../../domain/interfaces/repositories.interface';
 import {ProductMapper} from "../mappers/product.mapper";
+import {ObjectId} from "mongodb";
 
 export const ProductRepository = (): IProductRepository => ({
 
@@ -10,17 +11,17 @@ export const ProductRepository = (): IProductRepository => ({
     },
 
     async findById(id: string) {
-        const doc = await ProductModel.findOne({id}).lean();
+        const doc = await ProductModel.findOne({_id: new ObjectId(id)}).lean();
         return doc ? ProductMapper.persistenceToDomain(doc) : null;
     },
 
     async save(entry) {
-        const doc: any = entry.toPrimitives ? entry.toPrimitives() : entry;
+        const doc: any = entry.toPrimitives();
         await new ProductModel(doc).save();
     },
 
     async update(p) {
         const data = p.toPrimitives();
-        await ProductModel.updateOne({id: data.id}, {$set: data});
+        await ProductModel.updateOne({_id: new ObjectId(data._id)}, {$set: data});
     },
 });
