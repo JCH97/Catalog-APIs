@@ -4,14 +4,14 @@ import {AuditEntity} from '../../domain/entities/audit.entity';
 import {AuditAction} from '../../domain/enums/audit.action.enum';
 import type {IAuditRepository, IProductRepository} from '../../domain/interfaces/repositories.interface';
 import {Role} from '../../domain/enums/role';
-import {Publisher} from "../../domain/interfaces/publisher.interface";
+import {IPublisher} from "../../domain/interfaces/publisher.interface";
 
 
 export class ApproveProductUseCase {
     constructor(
         private readonly repo: IProductRepository,
         private readonly auditRepo: IAuditRepository,
-        private readonly publisher: Publisher
+        private readonly publisher: IPublisher
     ) {
     }
 
