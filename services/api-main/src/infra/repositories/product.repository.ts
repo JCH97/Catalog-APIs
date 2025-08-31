@@ -1,6 +1,6 @@
-import {ProductModel} from '../persistence/mongoose.models';
-import type {IProductRepository} from '../../domain/interfaces/repositories.interface';
-import {ProductMapper} from "../mappers/product.mapper";
+import {ProductModel} from '../persistence/mongoose.models.js';
+import type {IProductRepository} from '../../domain/interfaces/repositories.interface.js';
+import {ProductMapper} from "../mappers/product.mapper.js";
 import {ObjectId} from "mongodb";
 
 export const ProductRepository = (): IProductRepository => ({

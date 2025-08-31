@@ -1,10 +1,10 @@
 import {Result} from '../../shared/result/result.js';
 import {AppError} from '../../shared/errors.js';
-import {ProductEntity} from '../../domain/entities/product.entity';
-import type {IAuditRepository, IProductRepository} from '../../domain/interfaces/repositories.interface';
-import {Role} from '../../domain/enums/role';
-import {CreateProductInputDto} from "../dtos/product.dtos";
-import {IPublisher} from "../../domain/interfaces/publisher.interface";
+import {ProductEntity} from '../../domain/entities/product.entity.js';
+import type {IAuditRepository, IProductRepository} from '../../domain/interfaces/repositories.interface.js';
+import {Role} from '../../domain/enums/role.js';
+import {CreateProductInputDto} from "../dtos/product.dtos.js";
+import {IPublisher} from "../../domain/interfaces/publisher.interface.js";
 
 
 export class CreateProductUseCase {

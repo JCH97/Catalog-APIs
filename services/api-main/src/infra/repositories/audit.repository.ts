@@ -1,6 +1,6 @@
-import {AuditModel} from '../persistence/mongoose.models';
-import type {IAuditRepository} from '../../domain/interfaces/repositories.interface';
-import {AuditMapper} from "../mappers/audit.mapper";
+import {AuditModel} from '../persistence/mongoose.models.js';
+import type {IAuditRepository} from '../../domain/interfaces/repositories.interface.js';
+import {AuditMapper} from "../mappers/audit.mapper.js";
 
 export const auditRepository = (): IAuditRepository => ({
 

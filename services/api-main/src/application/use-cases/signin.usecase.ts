@@ -1,5 +1,5 @@
-import {signToken} from "../../infra/auth/jwt";
-import {Role} from "../../domain/enums/role";
+import {signToken} from "../../infra/auth/jwt.js";
+import {Role} from "../../domain/enums/role.js";
 
 export class SignInUseCase {
     constructor() {

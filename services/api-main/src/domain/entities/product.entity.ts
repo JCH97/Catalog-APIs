@@ -1,7 +1,7 @@
-import {Role} from '../enums/role';
-import {ProductStatus} from '../enums/product-status.enum';
-import {Result} from "../../shared/result/result";
-import {AppError} from "../../shared/errors";
+import {Role} from '../enums/role.js';
+import {ProductStatus} from '../enums/product-status.enum.js';
+import {Result} from "../../shared/result/result.js";
+import {AppError} from "../../shared/errors.js";
 import {ObjectId} from "mongodb";
 
 export type NetWeight = {

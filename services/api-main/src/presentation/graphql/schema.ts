@@ -1,6 +1,7 @@
 import {gql} from 'apollo-server-express';
 import GraphQLJSON from 'graphql-type-json';
-import {ProductMapper} from "../../infra/mappers/product.mapper";
+import {ProductMapper} from "../../infra/mappers/product.mapper.js";
+import {AppError} from "../../shared/errors.js";
 
 // GraphQL type definitions and resolvers for products
 export const typeDefs = gql`
@@ -71,7 +72,7 @@ export const resolvers = {
         },
         product: async (_: any, {id}: any, context: any) => {
             const product = await context.loaders.getProductById.load(id);
-            return product ? ProductMapper.domainToDto(product) : null;
+            return product ? ProductMapper.domainToDto(product) : AppError.NotFound('Product not found').throw();
         }
     },
     Mutation: {

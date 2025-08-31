@@ -1,5 +1,5 @@
-import {AuditEntity} from "../../domain/entities/audit.entity";
-import {AuditDto} from "../../application/dtos/audit.dtos";
+import {AuditEntity} from "../../domain/entities/audit.entity.js";
+import {AuditDto} from "../../application/dtos/audit.dtos.js";
 
 export class AuditMapper {
     public static domainToPersistence(a: AuditEntity): any {

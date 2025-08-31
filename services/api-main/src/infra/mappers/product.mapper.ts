@@ -1,5 +1,5 @@
-import {ProductEntity} from '../../domain/entities/product.entity';
-import type {ProductDto} from "../../application/dtos/product.dtos";
+import {ProductEntity} from '../../domain/entities/product.entity.js';
+import type {ProductDto} from "../../application/dtos/product.dtos.js";
 
 export class ProductMapper {
     public static domainToPersistence(p: ProductEntity): any {

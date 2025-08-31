@@ -1,8 +1,8 @@
-import {Role} from '../enums/role';
-import {AuditAction} from '../enums/audit.action.enum';
-import {AuditChangeItem} from "../interfaces/changes-items.interface";
-import {Result} from "../../shared/result/result";
-import {AppError} from "../../shared/errors";
+import {Role} from '../enums/role.js';
+import {AuditAction} from '../enums/audit.action.enum.js';
+import {AuditChangeItem} from "../interfaces/changes-items.interface.js";
+import {Result} from "../../shared/result/result.js";
+import {AppError} from "../../shared/errors.js";
 
 export type AuditProps = {
     productId: string;

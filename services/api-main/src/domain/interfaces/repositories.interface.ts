@@ -1,5 +1,5 @@
-import { ProductEntity } from '../entities/product.entity';
-import { AuditEntity } from '../entities/audit.entity';
+import { ProductEntity } from '../entities/product.entity.js';
+import { AuditEntity } from '../entities/audit.entity.js';
 
 export interface IProductRepository {
   findAll(): Promise<ProductEntity[]>;

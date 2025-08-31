@@ -1,4 +1,4 @@
-import {AuditModel} from '../persistence/mongoose.models';
+import {AuditModel} from '../persistence/mongoose.models.js';
 import DataLoader from 'dataloader';
 
 export function createAuditByProductIdLoader() {

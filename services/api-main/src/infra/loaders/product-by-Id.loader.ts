@@ -1,7 +1,7 @@
-import {ProductModel} from '../persistence/mongoose.models';
+import {ProductModel} from '../persistence/mongoose.models.js';
 import DataLoader from 'dataloader';
 import {ObjectId} from "mongodb";
-import {ProductMapper} from "../mappers/product.mapper";
+import {ProductMapper} from "../mappers/product.mapper.js";
 
 export function createProductByIdLoader() {
     return new DataLoader<string, any>(async (ids) => {

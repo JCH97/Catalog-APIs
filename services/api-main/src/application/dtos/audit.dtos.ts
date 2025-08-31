@@ -1,6 +1,6 @@
-import {AuditAction} from "../../domain/enums/audit.action.enum";
-import {Role} from "../../domain/enums/role";
-import {AuditChangeItem} from "../../domain/interfaces/changes-items.interface";
+import {AuditAction} from "../../domain/enums/audit.action.enum.js";
+import {Role} from "../../domain/enums/role.js";
+import {AuditChangeItem} from "../../domain/interfaces/changes-items.interface.js";
 
 export  type AuditDto = {
     productId: string;

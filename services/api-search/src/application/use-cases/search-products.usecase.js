@@ -24,6 +24,7 @@ export class SearchProductsUseCase {
       const items = await this.searchRepo.search(query);
       return Result.Ok(items);
     } catch (err) {
+      console.error(err);
       return Result.Fail(AppError.Internal(err?.message || 'Search failed'));
     }
   }

@@ -1,10 +1,10 @@
 import {Result} from '../../shared/result/result.js';
 import {AppError} from '../../shared/errors.js';
-import {AuditEntity} from '../../domain/entities/audit.entity';
-import {AuditAction} from '../../domain/enums/audit.action.enum';
-import type {IAuditRepository, IProductRepository} from '../../domain/interfaces/repositories.interface';
-import {Role} from '../../domain/enums/role';
-import {IPublisher} from "../../domain/interfaces/publisher.interface";
+import {AuditEntity} from '../../domain/entities/audit.entity.js';
+import {AuditAction} from '../../domain/enums/audit.action.enum.js';
+import type {IAuditRepository, IProductRepository} from '../../domain/interfaces/repositories.interface.js';
+import {Role} from '../../domain/enums/role.js';
+import {IPublisher} from "../../domain/interfaces/publisher.interface.js";
 
 
 export class ApproveProductUseCase {

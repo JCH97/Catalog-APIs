@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import {Role} from '../../domain/enums/role';
+import {Role} from '../../domain/enums/role.js';
 
 export type TokenPayload = { role: Role };
 
