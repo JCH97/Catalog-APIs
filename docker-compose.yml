@@ -9,8 +9,10 @@ services:
       - ELASTIC_URL=http://elasticsearch:9200
       - REDIS_URL=redis://redis:6379
     depends_on:
-      - elasticsearch
-      - redis
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_started
   api-main:
     build: ./services/api-main
     ports:
@@ -20,9 +22,14 @@ services:
       - REDIS_URL=redis://redis:6379
       - JWT_SECRET=z1knEA3UDk6Lv0AcOhjE
     depends_on:
-      - mongo
-      - redis
-      - api-search
+      mongo:
+        condition: service_started
+      redis:
+        condition: service_started
+      api-search:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
   mongo:
     image: mongo:6.0.26-jammy
     ports:
@@ -43,10 +50,17 @@ services:
       - "9200:9200"
     volumes:
       - es_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:9200/_cluster/health?wait_for_status=yellow\\&timeout=5s || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.10
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
