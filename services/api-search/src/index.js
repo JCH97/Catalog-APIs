@@ -8,6 +8,7 @@ const elasticUrl = process.env.ELASTIC_URL || 'http://localhost:9200';
 async function main() {
     // Start the Redis subscriber first to ensure index receives events.
     await startSubscriber(redisUrl, elasticUrl);
+
     // Start the REST server.
     await startServer(elasticUrl);
 }
