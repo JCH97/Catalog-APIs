@@ -8,6 +8,7 @@ let client;
  * @param {string} nodeUrl
  */
 export async function getElasticClient(nodeUrl) {
+    console.log(`getElasticClient: ${nodeUrl}`);
     if (!client) {
         client = new Client({node: nodeUrl});
         // ensure index exists

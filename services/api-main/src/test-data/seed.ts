@@ -33,7 +33,7 @@ export async function runSeed() {
             description: '14" IPS 2.2K anti‑glare display in a 1.3 kg magnesium‑alloy chassis. Latest‑generation 10‑core mobile processor, 16GB LPDDR5 memory and 512GB NVMe SSD. Backlit keyboard, precision glass trackpad and 1080p webcam with privacy shutter. Ports: 2x USB‑C (Thunderbolt 4), USB‑A, HDMI 2.0, audio combo. Wi‑Fi 6 and Bluetooth 5.2. 56Wh battery for up to 12 hours of mixed use. Fingerprint reader with Windows Hello.',
             brand: 'ByteForge',
             manufacturer: 'ByteForge Computers LLC',
-            netWeight: {value: 1.3, unit: 'KILOGRAM'}
+            netWeight: {value: 2, unit: 'KILOGRAM'}
         }, Role.EDITOR);
         res2.unwrap();
     }

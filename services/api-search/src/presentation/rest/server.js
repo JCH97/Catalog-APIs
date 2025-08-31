@@ -2,6 +2,7 @@
 import express from 'express';
 import {SearchProductsUseCase} from '../../application/use-cases/search-products.usecase.js';
 import {productSearchRepository} from '../../infra/repositories/product.search.repository.js';
+import {getElasticClient} from "../../infra/persistence/elastic.js";
 
 /**
  * Starts the REST server.
@@ -11,6 +12,8 @@ export async function startServer(elasticUrl) {
     const app = express();
     const repo = productSearchRepository(elasticUrl);
     const searchUseCase = new SearchProductsUseCase(repo);
+
+    await getElasticClient(elasticUrl); // in order to create index.
 
     app.get('/search', async (req, res) => {
         const q = (req.query.q || '').toString();

@@ -36,7 +36,8 @@ export function productSearchRepository(elasticUrl) {
          */
         async index(product) {
             const es = await getElasticClient(elasticUrl);
-            await es.index({index: 'products', id: product.id, body: product.toPrimitives()});
+            const body = product.toPrimitives();
+            await es.index({ index: 'products', id: product.id, body, refresh: 'wait_for' });
         }
     };
 }
