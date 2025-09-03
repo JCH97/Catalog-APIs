@@ -11,7 +11,7 @@ export type TokenPayload = { role: Role };
 
 export function signToken(payload: { role: Role }): string {
     const secret = process.env.JWT_SECRET || 'secret';
-    return jwt.sign(payload, secret, {expiresIn: '100d'});
+    return jwt.sign(payload, secret, {expiresIn: '1h'});
 }
 
 export function verifyToken(token: string): TokenPayload {
