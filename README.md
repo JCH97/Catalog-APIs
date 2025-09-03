@@ -9,29 +9,29 @@ A continuación se describen la arquitectura, tecnologías y componentes de cada
 Arquitectura de Capas
 
 El código se organiza en cuatro capas claramente separadas que siguen el patrón de Clean Architecture:
-1.	Domain
-- Contiene las entidades de negocio (Product, AuditEntry), los enumerados (Role, ProductStatus, AuditAction) y las interfaces de repositorio. 
-- Las entidades son ricas: encapsulan validaciones y comportamientos. Por ejemplo, Product.create() valida el GTIN, nombre y peso, y asigna estado inicial según el rol del actor; Product.updateDetails() aplica updates de forma controlada; Product.approve() verifica permisos. 
-- Los constructores de las entidades son privados; la única manera de obtener instancias es a través de métodos estáticos (create, hydrate).
+1. Domain
+   - Contiene las entidades de negocio (Product, AuditEntry), los enumerados (Role, ProductStatus, AuditAction) y las interfaces de repositorio. 
+   - Las entidades son ricas: encapsulan validaciones y comportamientos. Por ejemplo, Product.create() valida el GTIN, nombre y peso, y asigna estado inicial según el rol del actor; Product.updateDetails() aplica updates de forma controlada; Product.approve() verifica permisos. 
+   - Los constructores de las entidades son privados; la única manera de obtener instancias es a través de métodos estáticos (create, hydrate).
 2. Application
-- Define casos de uso (CreateProductUseCase, UpdateProductUseCase, etc.) y DTOs de entrada/salida. 
-- Cada caso de uso recibe los repositorios que necesita, orquesta las entidades del dominio, registra auditorías y emite eventos. 
-- Devuelven un objeto Result<T> que encapsula éxito o error con los respectivos mensajes (AppError). 
-- No depende de Express ni de Mongoose; sólo conoce las interfaces del dominio.
-3.	Infra: Implementa los detalles tecnológicos
-- Persistence: conexión a MongoDB y definición de modelos Mongoose (mongodb.ts, mongooseModels.ts). 
-- Repositories: implementaciones concretas (product.mongo.repository.ts, audit.mongo.repository.ts) que cumplen las interfaces del dominio. 
-- Mappers: transforman entre documentos de persistencia y entidades, y entre entidades y DTOs para presentación. 
-- Messaging: conexión a Redis (messageBus.ts) para publicar y suscribir eventos de dominio. 
-- Loaders: fabrican instancias de DataLoader (de la librería oficial dataloader) para resolver consultas N+1 en GraphQL, como auditByProductId y productById. 
-- Auth: middleware JWT y helpers para descodificar el rol del usuario.
-4.	Presentation 
-- Contiene los puntos de entrada que interactúan con el cliente.
-- GraphQL (src/presentation/graphql): define el esquema, los resolvers y el servidor Apollo. Las queries y mutaciones delegan en casos de uso y utilizan DataLoaders para optimizar accesos a MongoDB. 
-- REST (en api-search): se implementa con Express y expone un endpoint /search que acepta parámetro q y devuelve productos coincidentes. 
-- Los resolvers nunca instancian directamente entidades o consultan la base de datos; usan los casos de uso y mapean las entidades a DTOs.
+    - Define casos de uso (CreateProductUseCase, UpdateProductUseCase, etc.) y DTOs de entrada/salida. 
+    - Cada caso de uso recibe los repositorios que necesita, orquesta las entidades del dominio, registra auditorías y emite eventos. 
+    - Devuelven un objeto Result<T> que encapsula éxito o error con los respectivos mensajes (AppError). 
+    - No depende de Express ni de Mongoose; sólo conoce las interfaces del dominio.
+3. Infra: Implementa los detalles tecnológicos
+    - Persistence: conexión a MongoDB y definición de modelos Mongoose (mongodb.ts, mongooseModels.ts). 
+    - Repositories: implementaciones concretas (product.mongo.repository.ts, audit.mongo.repository.ts) que cumplen las interfaces del dominio. 
+    - Mappers: transforman entre documentos de persistencia y entidades, y entre entidades y DTOs para presentación. 
+    - Messaging: conexión a Redis (messageBus.ts) para publicar y suscribir eventos de dominio. 
+    - Loaders: fabrican instancias de DataLoader (de la librería oficial dataloader) para resolver consultas N+1 en GraphQL, como auditByProductId y productById. 
+    - Auth: middleware JWT y helpers para descodificar el rol del usuario.
+4. Presentation 
+    - Contiene los puntos de entrada que interactúan con el cliente.
+    - GraphQL (src/presentation/graphql): define el esquema, los resolvers y el servidor Apollo. Las queries y mutaciones delegan en casos de uso y utilizan DataLoaders para optimizar accesos a MongoDB. 
+    - REST (en api-search): se implementa con Express y expone un endpoint /search que acepta parámetro q y devuelve productos coincidentes. 
+    - Los resolvers nunca instancian directamente entidades o consultan la base de datos; usan los casos de uso y mapean las entidades a DTOs.
 
-Tecnologías Utilizadas
+Tecnologías Utilizadas: 
 - Node.js con TypeScript para api-main, y JavaScript moderno para api-search.
 - Express.js como servidor HTTP.
 - GraphQL con Apollo Server para la API principal.

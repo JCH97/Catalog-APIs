@@ -1,0 +1,442 @@
+{
+	"info": {
+		"_postman_id": "12ecb3e3-e6f5-44fb-8eb6-91d34a50b9cf",
+		"name": "Tecnical Interviews",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17831281"
+	},
+	"item": [
+		{
+			"name": "Treew",
+			"item": [
+				{
+					"name": "Api-Main",
+					"item": [
+						{
+							"name": "SignIn as Editor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Tests (post-request) — extrae el token y lo guarda en la colección",
+											"(function () {",
+											"  let json;",
+											"  try {",
+											"    json = pm.response.json();",
+											"  } catch (e) {",
+											"    json = null;",
+											"  }",
+											"",
+											"  const token = json?.data?.signIn?.token;",
+											"",
+											"  // Asegura que no vengan errores GraphQL",
+											"  pm.test(\"Sin errores GraphQL\", function () {",
+											"    pm.expect(json?.errors, JSON.stringify(json?.errors)).to.be.undefined;",
+											"  });",
+											"",
+											"  // Verifica que llegó un JWT",
+											"  pm.test(\"La respuesta incluye token\", function () {",
+											"    pm.expect(token, \"No se encontró data.signIn.token en la respuesta\")",
+											"      .to.be.a(\"string\")",
+											"      .and.to.have.length.above(10);",
+											"  });",
+											"",
+											"  if (token) {",
+											"    // Guarda el token como variable de COLECCIÓN",
+											"    // En la colección: Authorization → Bearer Token → Token: {{jwt}}",
+											"    pm.collectionVariables.set(\"jwt\", token);",
+											"",
+											"    // (Opcional) también lo guardas en el entorno:",
+											"    // pm.environment.set(\"jwt\", token);",
+											"",
+											"    // (Opcional) añade/actualiza la cabecera Authorization solo para ESTE request",
+											"    pm.request.headers.upsert({ key: \"Authorization\", value: `Bearer ${token}` });",
+											"  }",
+											"})();"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation SignIn {\n    signIn(input: { role: EDITOR }) {\n        token\n    }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SignIn as Provideer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Tests (post-request) — extrae el token y lo guarda en la colección",
+											"(function () {",
+											"  let json;",
+											"  try {",
+											"    json = pm.response.json();",
+											"  } catch (e) {",
+											"    json = null;",
+											"  }",
+											"",
+											"  const token = json?.data?.signIn?.token;",
+											"",
+											"  // Asegura que no vengan errores GraphQL",
+											"  pm.test(\"Sin errores GraphQL\", function () {",
+											"    pm.expect(json?.errors, JSON.stringify(json?.errors)).to.be.undefined;",
+											"  });",
+											"",
+											"  // Verifica que llegó un JWT",
+											"  pm.test(\"La respuesta incluye token\", function () {",
+											"    pm.expect(token, \"No se encontró data.signIn.token en la respuesta\")",
+											"      .to.be.a(\"string\")",
+											"      .and.to.have.length.above(10);",
+											"  });",
+											"",
+											"  if (token) {",
+											"    // Guarda el token como variable de COLECCIÓN",
+											"    // En la colección: Authorization → Bearer Token → Token: {{jwt}}",
+											"    pm.collectionVariables.set(\"jwt\", token);",
+											"",
+											"    // (Opcional) también lo guardas en el entorno:",
+											"    // pm.environment.set(\"jwt\", token);",
+											"",
+											"    // (Opcional) añade/actualiza la cabecera Authorization solo para ESTE request",
+											"    pm.request.headers.upsert({ key: \"Authorization\", value: `Bearer ${token}` });",
+											"  }",
+											"})();"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation SignIn {\n    signIn(input: { role: PROVIDER }) {\n        token\n    }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Product",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Longitud aleatoria entre 8 y 14",
+											"const len = 8 + Math.floor(Math.random() * 7); // 8..14",
+											"",
+											"// Genera un entero de 'len' dígitos (primer dígito ≠ 0)",
+											"const min = 10 ** (len - 1);",
+											"const max = 10 ** len - 1;",
+											"const id = (Math.floor(Math.random() * (max - min + 1)) + min).toString();",
+											"",
+											"// Guarda como variable (elige una de las dos líneas según prefieras)",
+											"pm.collectionVariables.set('id', id);   // disponible para toda la colección",
+											"// pm.environment.set('id', id);        // o en el entorno actual",
+											"",
+											"console.log('ID generado:', id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation CreateProduct {\n    createProduct(\n        input: {\n            gtin: \"{{id}}\"\n            name: \"{{$randomProductName}}\"\n            description: \"{{$randomLoremParagraph}}\"\n            brand: \"{{$randomProductAdjective}}\"\n            manufacturer: \"{{$randomWord}}\"\n            netWeight: { value: 10, unit: \"KILOGRAM\" }\n        }\n    ) {\n        _id\n        gtin\n        name\n        description\n        brand\n        manufacturer\n        status\n        createdByRole\n        createdAt\n        updatedAt\n        version\n        netWeight {\n            value\n            unit\n        }\n    }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation UpdateProduct {\n    updateProduct(\n        id: \"68b4754d7ccbf71fd69d7df6\"\n        input: {\n            manufacturer: \"{{$randomWord}}\"\n        }\n    ) {\n        _id\n        gtin\n        name\n        description\n        brand\n        manufacturer\n        status\n        createdByRole\n        createdAt\n        updatedAt\n        version\n        netWeight {\n            value\n            unit\n        }\n    }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Approve product",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation ApproveProduct {\n    approveProduct(id: \"68b45ec698fc38fc28dd3db9\") {\n        _id\n        gtin\n        name\n        description\n        brand\n        manufacturer\n        status\n        createdByRole\n        createdAt\n        updatedAt\n        version\n    }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Product",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query Product {\n    product(id: \"68b45ec698fc38fc28dd3d19\") {\n        _id\n        gtin\n        name\n        description\n        brand\n        manufacturer\n        status\n        createdByRole\n        createdAt\n        updatedAt\n        version\n    }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Products",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query Products {\n    products {\n        _id\n        gtin\n        name\n        description\n        brand\n        manufacturer\n        status\n        createdByRole\n        createdAt\n        updatedAt\n        version\n        history {\n            productId\n            action\n            changedAt\n            changedByRole\n            version\n            productBeforeSnapshot\n            productAfterSnapshot\n            changes {\n                field\n                before\n                after\n            }\n        }\n    }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Api-Search",
+					"item": [
+						{
+							"name": "Search product",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4001/search?q=Laptop",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4001",
+									"path": [
+										"search"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "Laptop"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
