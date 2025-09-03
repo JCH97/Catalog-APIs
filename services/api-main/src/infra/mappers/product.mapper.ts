@@ -1,6 +1,12 @@
 import {ProductEntity} from '../../domain/entities/product.entity.js';
 import type {ProductDto} from "../../application/dtos/product.dtos.js";
 
+/**
+ * Mapper class for transforming product data between different layers.
+ * - domainToPersistence: Converts a domain entity to a persistence format.
+ * - persistenceToDomain: Converts raw persistence data to a domain entity.
+ * - domainToDto: Converts a domain entity to a Data Transfer Object (DTO).
+ */
 export class ProductMapper {
     public static domainToPersistence(p: ProductEntity): any {
         return p.toPrimitives();

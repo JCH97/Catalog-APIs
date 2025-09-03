@@ -7,7 +7,17 @@ import {CreateProductInputDto} from "../dtos/product.dtos.js";
 import {IPublisher} from "../../domain/interfaces/publisher.interface.js";
 
 
+/**
+ * @class CreateProductUseCase
+ * @description Use case for creating a product.
+ */
 export class CreateProductUseCase {
+    /**
+     * @constructor
+     * @param {IProductRepository} repo - The product repository.
+     * @param {IAuditRepository} auditRepo - The audit repository.
+     * @param {IPublisher} publisher - The publisher.
+     */
     constructor(
         private readonly repo: IProductRepository,
         private readonly auditRepo: IAuditRepository,
@@ -15,6 +25,13 @@ export class CreateProductUseCase {
     ) {
     }
 
+    /**
+     * @method execute
+     * @description Executes the use case.
+     * @param {CreateProductInputDto} input - The input data.
+     * @param {Role} actor - The actor performing the action.
+     * @returns {Promise<Result<ProductEntity>>} The result of the use case.
+     */
     async execute(input: CreateProductInputDto, actor: Role) {
         try {
             const product = ProductEntity.create(input, actor);

@@ -1,3 +1,8 @@
+/**
+ * Registers the search endpoint on the Express app.
+ * @param {import('express').Express} app - The Express application instance.
+ * @param {SearchProductsUseCase} searchUseCase - The use case for searching products.
+ */
 export function searchController(app, searchUseCase) {
     app.get('/search', async (req, res) => {
         const q = (req.query.q || '').toString();

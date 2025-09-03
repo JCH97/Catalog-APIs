@@ -4,11 +4,19 @@ import {Result} from "../../shared/result/result.js";
 import {AppError} from "../../shared/errors.js";
 import {ObjectId} from "mongodb";
 
+/**
+ * @type NetWeight
+ * @description Represents the net weight of a product.
+ */
 export type NetWeight = {
     value: number;
     unit: 'GRAM' | 'KILOGRAM' | 'OUNCE' | 'POUND';
 }
 
+/**
+ * @type ProductProps
+ * @description Represents the properties of a product.
+ */
 export type ProductProps = {
     _id: string;
     gtin: string;
@@ -24,6 +32,10 @@ export type ProductProps = {
     version: number;
 };
 
+/**
+ * @class ProductEntity
+ * @description Represents a product entity.
+ */
 export class ProductEntity {
     private readonly _id: string;
     private _gtin: string;
@@ -38,6 +50,10 @@ export class ProductEntity {
     private _updatedAt: Date;
     private _version: number;
 
+    /**
+     * @constructor
+     * @param {ProductProps} props - The properties of the product.
+     */
     private constructor(props: ProductProps) {
         this._id = props._id;
         this._gtin = props.gtin;
@@ -53,6 +69,13 @@ export class ProductEntity {
         this._version = props.version;
     }
 
+    /**
+     * @method create
+     * @description Creates a new product entity.
+     * @param {object} input - The input data for creating the product.
+     * @param {Role} actor - The actor creating the product.
+     * @returns {Result<ProductEntity>} The result of the creation.
+     */
     static create(input: {
         gtin: string;
         name: string;
@@ -92,6 +115,12 @@ export class ProductEntity {
         return Result.Ok(p);
     }
 
+    /**
+     * @method hydrate
+     * @description Creates a product entity from existing data.
+     * @param {ProductProps} data - The data to hydrate the entity with.
+     * @returns {Result<ProductEntity>} The result of the hydration.
+     */
     static hydrate(data: ProductProps): Result<ProductEntity> {
         return Result.Ok(new ProductEntity({
             ...data,
@@ -101,6 +130,11 @@ export class ProductEntity {
         }));
     }
 
+    /**
+     * @method toPrimitives
+     * @description Converts the entity to its primitive properties.
+     * @returns {ProductProps} The primitive properties of the entity.
+     */
     toPrimitives(): ProductProps {
         return {
             _id: this._id,
@@ -118,6 +152,13 @@ export class ProductEntity {
         };
     }
 
+    /**
+     * @method update
+     * @description Updates the product.
+     * @param {object} patch - The data to update.
+     * @param {Role} actor - The actor performing the update.
+     * @returns {Result<boolean>} The result of the update.
+     */
     update(patch: Partial<{
         name: string;
         description: string | null;
@@ -150,6 +191,12 @@ export class ProductEntity {
         return Result.Ok(changed);
     }
 
+    /**
+     * @method approve
+     * @description Approves the product.
+     * @param {Role} actor - The actor approving the product.
+     * @returns {Result<void>} The result of the approval.
+     */
     approve(actor: Role): Result<void> {
         if (actor !== Role.EDITOR)
             return Result.Fail(AppError.Validation('You should be an EDITOR to approve a product'));

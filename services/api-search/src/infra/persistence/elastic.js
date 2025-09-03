@@ -5,7 +5,9 @@ let client;
 
 /**
  * Returns a singleton Elasticsearch client.
- * @param {string} nodeUrl
+ * Ensures the 'products' index exists.
+ * @param {string} nodeUrl - The Elasticsearch node URL.
+ * @returns {Promise<Client>} The Elasticsearch client instance.
  */
 export async function getElasticClient(nodeUrl) {
     console.log(`getElasticClient: ${nodeUrl}`);

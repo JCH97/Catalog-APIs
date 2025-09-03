@@ -1,6 +1,12 @@
 import {AuditEntity} from "../../domain/entities/audit.entity.js";
 import {AuditDto} from "../../application/dtos/audit.dtos.js";
 
+/**
+ * Mapper class for transforming audit data between different layers.
+ * - domainToPersistence: Converts a domain entity to a persistence format.
+ * - persistenceToDomain: Converts raw persistence data to a domain entity.
+ * - domainToDto: Converts a domain entity to a Data Transfer Object (DTO).
+ */
 export class AuditMapper {
     public static domainToPersistence(a: AuditEntity): any {
         return a.toPrimitives();

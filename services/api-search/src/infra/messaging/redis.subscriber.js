@@ -6,8 +6,9 @@ import {IndexProductUseCase} from '../../application/use-cases/index-product.use
 
 /**
  * Starts a Redis subscriber that listens for domain events and indexes products.
- * @param {string} redisUrl
- * @param {string} elasticUrl
+ * @param {string} redisUrl - The Redis connection URL.
+ * @param {string} elasticUrl - The Elasticsearch connection URL.
+ * @returns {Promise<import('redis').RedisClientType>} The connected Redis client.
  */
 export async function startSubscriber(redisUrl, elasticUrl) {
     const client = createClient({url: redisUrl});

@@ -1,11 +1,12 @@
 ### Documentación del Uso de IA 
 
-Este documento detalla cómo se integraron herramientas de inteligencia artificial en el desarrollo del proyecto. La IA se utilizó para mejorar la productividad, aclarar dudas técnicas y optimizar la documentación del proyecto.
+Este documento detalla cómo se integraron herramientas de inteligencia artificial en el desarrollo del proyecto. La IA se utilizó para mejorar la productividad, aclarar dudas técnicas y optimizar la documentación del proyecto. En una primera instancia se compartió el contexto del proyecto (orientación) y posteriormente se fueron realizando preguntas específicas para resolver dudas puntuales.
 
 #### Entorno de Desarrollo
 
 - **IDE**: Se utilizó **WebStorm** de JetBrains con **GitHub Copilot** en su versión de pago, lo que permitió asistencia de código automatizada e inteligente.
-- **ChatGPT Desktop**: Se empleó la versión GPT-5 en modo de escritorio, permitiendo el suministro de contexto mediante archivos del proyecto para una revisión y gestión más eficiente.
+- **ChatGPT Desktop**: Se empleó la versión GPT5 en desktop, permitiendo el suministro de contexto mediante archivos del proyecto para una revisión y gestión más eficiente.
+- **Gemini**: Se utilizó para generar documentación y ejemplos de código en Typescript, sobre todo para la generación de los archivos tsconfig.json.
 
 #### Usos Específicos de la IA
 
@@ -14,7 +15,7 @@ Este documento detalla cómo se integraron herramientas de inteligencia artifici
    - La IA garantizó una integración más fluida y la resolución de problemas técnicos de forma rápida.
 
 2. **Documentación del Proyecto**:
-   - ChatGPT ayudó a redactar tanto la documentación interna del código como el archivo **README.md**  del proyecto.
+   - ChatGPT y Gemini ayudaron a redactar tanto la documentación interna del código como el archivo **README.md**  del proyecto.
 
 3. **Validaciones y Reglas de Negocio**:
    - La IA para agilizar las validaciones en la capa de dominio, asegurando que las reglas de negocio cumplieran con la arquitectura y los requisitos del proyecto.

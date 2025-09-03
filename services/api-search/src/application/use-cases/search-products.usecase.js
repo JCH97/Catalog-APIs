@@ -3,12 +3,13 @@ import { Result } from '../../shared/result/result.js';
 import { AppError } from '../../shared/errors.js';
 
 /**
- * @typedef {import('../../domain/interfaces/repositories.js').SearchRepository} SearchRepository
+ * Use case for searching products in the search index.
+ * @class
  */
-
 export class SearchProductsUseCase {
   /**
-   * @param {SearchRepository} searchRepo
+   * @constructor
+   * @param {SearchRepository} searchRepo - The repository used to search products.
    */
   constructor(searchRepo) {
     this.searchRepo = searchRepo;
@@ -16,7 +17,8 @@ export class SearchProductsUseCase {
 
   /**
    * Executes a search for products.
-   * @param {string} query
+   * @param {string} query - The search query string.
+   * @returns {Promise<Result<Product[], AppError>>} Result containing found products or error.
    */
   async execute(query) {
     try {

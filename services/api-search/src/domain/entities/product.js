@@ -1,17 +1,22 @@
 import {Result} from "../../shared/result/result.js";
 
+/**
+ * Represents a product entity.
+ * @class
+ */
 export class Product {
     /**
      * Constructs a Product. Use static factory methods when possible.
-     * @param {object} props
-     * @param {string} props.id
-     * @param {string} props.gtin
-     * @param {string} props.name
-     * @param {string} [props.description]
-     * @param {string} [props.brand]
-     * @param {string} [props.manufacturer]
-     * @param {{ value: number, unit: string }} [props.netWeight]
-     * @param {string} [props.status]
+     * @constructor
+     * @param {object} props - The product properties.
+     * @param {string} props.id - The product ID.
+     * @param {string} props.gtin - The product GTIN.
+     * @param {string} props.name - The product name.
+     * @param {string} [props.description] - The product description.
+     * @param {string} [props.brand] - The product brand.
+     * @param {string} [props.manufacturer] - The product manufacturer.
+     * @param {{ value: number, unit: string }} [props.netWeight] - The product net weight.
+     * @param {string} [props.status] - The product status.
      */
     constructor(props) {
         this.id = props.id;
@@ -26,7 +31,8 @@ export class Product {
 
     /**
      * Creates a Product instance from plain data.
-     * @param {object} data
+     * @param {object} data - The plain data object.
+     * @returns {Result<Product, Error>} Result containing the hydrated Product.
      */
     static hydrate(data) {
         return Result.Ok(new Product({
@@ -43,7 +49,7 @@ export class Product {
 
     /**
      * Converts the Product into plain data suitable for persistence or transport.
-     * @returns {object}
+     * @returns {object} The plain data representation of the product.
      */
     toPrimitives() {
         return {

@@ -7,7 +7,17 @@ import {Role} from '../../domain/enums/role.js';
 import {IPublisher} from "../../domain/interfaces/publisher.interface.js";
 
 
+/**
+ * @class ApproveProductUseCase
+ * @description Use case for approving a product.
+ */
 export class ApproveProductUseCase {
+    /**
+     * @constructor
+     * @param {IProductRepository} repo - The product repository.
+     * @param {IAuditRepository} auditRepo - The audit repository.
+     * @param {IPublisher} publisher - The publisher.
+     */
     constructor(
         private readonly repo: IProductRepository,
         private readonly auditRepo: IAuditRepository,
@@ -15,6 +25,13 @@ export class ApproveProductUseCase {
     ) {
     }
 
+    /**
+     * @method execute
+     * @description Executes the use case.
+     * @param {string} id - The ID of the product to approve.
+     * @param {Role} actor - The actor performing the action.
+     * @returns {Promise<Result<ProductEntity>>} The result of the use case.
+     */
     async execute(id: string, actor: Role) {
         try {
             const p = await this.repo.findById(id);

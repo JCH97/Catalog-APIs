@@ -4,6 +4,7 @@
 import { Optional } from '../optional.base.js';
 
 /**
+ * Represents the result of an operation, encapsulating success or failure.
  * @template R
  * @template E
  * @class
@@ -12,10 +13,10 @@ export class Result {
   /**
    * Creates a new Result. Callers should use the static Ok/Fail
    * factories instead of invoking this constructor directly.
-   *
-   * @param {boolean} isSuccess Indicates whether the result is success.
-   * @param {E|null} [error]    The error value if failure.
-   * @param {R} [value]         The success value if success.
+   * @constructor
+   * @param {boolean} isSuccess - Indicates whether the result is success.
+   * @param {E|null} [error] - The error value if failure.
+   * @param {R} [value] - The success value if success.
    */
   constructor(isSuccess, error = null, value) {
     if (isSuccess && error) {
@@ -37,7 +38,7 @@ export class Result {
 
   /**
    * Returns the contained value wrapped as Optional or null if failure.
-   * @returns {R|null}
+   * @returns {R|null} The value if success, otherwise null.
    */
   getValue() {
     return Optional(this.isSuccess ? this._value : null);
@@ -45,7 +46,7 @@ export class Result {
 
   /**
    * Returns the contained error wrapped as Optional or null if success.
-   * @returns {E|null}
+   * @returns {E|null} The error if failure, otherwise null.
    */
   errorValue() {
     return Optional(this.isFailure ? this._error : null);

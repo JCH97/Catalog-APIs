@@ -1,6 +1,12 @@
 import jwt from 'jsonwebtoken';
 import {Role} from '../../domain/enums/role.js';
 
+/**
+ * Utility functions for handling JSON Web Tokens (JWT).
+ * - signToken: Signs a payload to generate a JWT.
+ * - verifyToken: Verifies a JWT and returns the decoded payload.
+ */
+
 export type TokenPayload = { role: Role };
 
 export function signToken(payload: { role: Role }): string {

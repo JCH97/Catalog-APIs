@@ -6,8 +6,9 @@ import {getElasticClient} from "../../infra/persistence/elastic.js";
 import {searchController} from "./search.controller.ts.js";
 
 /**
- * Starts the REST server.
- * @param {string} elasticUrl
+ * Starts the REST server for the search service.
+ * @param {string} elasticUrl - The Elasticsearch connection URL.
+ * @returns {Promise<import('express').Express>} Promise resolving to the Express app instance.
  */
 export async function startServer(elasticUrl) {
     const app = express();

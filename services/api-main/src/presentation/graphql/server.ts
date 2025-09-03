@@ -1,3 +1,13 @@
+/**
+ * Starts and configures the Express/Apollo GraphQL server for the Product API.
+ *
+ * - Connects to MongoDB and Redis.
+ * - Sets up repositories, use cases, and DataLoader instances for efficient data access.
+ * - Applies authentication middleware and CORS.
+ * - Seeds the database if empty on startup.
+ * - Launches the server on the configured port.
+ */
+
 import express from 'express';
 import cors from 'cors';
 import {ApolloServer} from 'apollo-server-express';

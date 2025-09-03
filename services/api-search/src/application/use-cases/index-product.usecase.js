@@ -2,13 +2,13 @@ import {Result} from '../../shared/result/result.js';
 import {AppError} from '../../shared/errors.js';
 
 /**
- * @typedef {import('../../domain/interfaces/repositories.js').IndexRepository} IndexRepository
- * @typedef {import('../../domain/entities/product.js').Product} Product
+ * Use case for indexing a product into the search index.
+ * @class
  */
-
 export class IndexProductUseCase {
     /**
-     * @param {IndexRepository} indexRepo
+     * @constructor
+     * @param {IndexRepository} indexRepo - The repository used to index products.
      */
     constructor(indexRepo) {
         this.indexRepo = indexRepo;
@@ -16,7 +16,8 @@ export class IndexProductUseCase {
 
     /**
      * Indexes a product.
-     * @param {Product} product
+     * @param {Product} product - The product to index.
+     * @returns {Promise<Result<void, AppError>>} Result of the operation.
      */
     async execute(product) {
         try {

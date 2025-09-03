@@ -8,7 +8,17 @@ import {IPublisher} from "../../domain/interfaces/publisher.interface.js";
 import {UpdateProductInputDTO} from "../dtos/product.dtos.js";
 
 
+/**
+ * @class UpdateProductUseCase
+ * @description Use case for updating a product.
+ */
 export class UpdateProductUseCase {
+    /**
+     * @constructor
+     * @param {IProductRepository} repo - The product repository.
+     * @param {IAuditRepository} auditRepo - The audit repository.
+     * @param {IPublisher} publisher - The publisher.
+     */
     constructor(
         private readonly repo: IProductRepository,
         private readonly auditRepo: IAuditRepository,
@@ -16,6 +26,14 @@ export class UpdateProductUseCase {
     ) {
     }
 
+    /**
+     * @method execute
+     * @description Executes the use case.
+     * @param {string} id - The ID of the product to update.
+     * @param {UpdateProductInputDTO} patch - The data to update.
+     * @param {Role} actor - The actor performing the action.
+     * @returns {Promise<Result<ProductEntity>>} The result of the use case.
+     */
     async execute(id: string, patch: UpdateProductInputDTO, actor: Role) {
         try {
             const p = await this.repo.findById(id);

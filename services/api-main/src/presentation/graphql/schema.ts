@@ -1,3 +1,11 @@
+/**
+ * GraphQL schema definitions and resolvers for the Product API.
+ *
+ * - Defines types, enums, inputs, queries, and mutations for products, audits, and authentication.
+ * - Implements resolvers to handle fetching and mutating product and audit data.
+ * - Integrates with application use cases and data mappers.
+ */
+
 import {gql} from 'apollo-server-express';
 import GraphQLJSON from 'graphql-type-json';
 import {ProductMapper} from "../../infra/mappers/product.mapper.js";
