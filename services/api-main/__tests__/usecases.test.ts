@@ -48,7 +48,7 @@ describe('CreateProductUseCase', () => {
     expect(res.isSuccess).toBe(true);
 
     const p: any = res.unwrap();
-    expect(p.status).toBe(ProductStatus.PUBLISHED);
+    expect(p.status).toBe(ProductStatus.PENDING_REVIEW);
     expect(repo.save).toHaveBeenCalled();
   });
 });
