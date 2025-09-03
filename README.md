@@ -1,4 +1,4 @@
-Prueba Técnica – APIs de Productos (DDD)
+APIs de Productos (DDD)
 
 Este proyecto implementa un catálogo de productos siguiendo principios de Diseño Orientado al Dominio (Domain‑Driven Design). La solución está compuesta por dos microservicios:
 - api-main – API GraphQL central para creación, gestión y consulta de productos y sus historiales. Está escrita en TypeScript, expone un endpoint GraphQL y persiste datos en MongoDB. Además publica eventos de dominio mediante Redis.
