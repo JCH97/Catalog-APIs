@@ -76,3 +76,34 @@ Instrucciones para ejecución manual:
 4. Ejecutar ```npm run dev```(modo desarrollo) en cada una de las apis, primero en api-search y luego en api-main.
 ###### El motivo de seguir este orden es debido a que api-main cuando se ejeucta automáticame incluye datos para pruebas en BD y por tanto lanza eventos a api-search, es decir que api-search previamente debe estar up para poder procesar estos eventos.
 
+Tests y GitHub Actions
+
+- Este repositorio incluye tests unitarios para ambos servicios (api-main en TypeScript y api-search en JavaScript). Además se ha añadido un workflow de GitHub Actions (.github/workflows/workflow.yml) que ejecuta los tests automáticamente en los eventos push y pull_request.
+
+- Qué hace el workflow:
+  - Nombre: "CI Tests".
+  - Se ejecuta sobre Node.js 20 y usa caché de npm.
+  - Ejecuta una matriz de jobs por servicio: api-main y api-search. Para cada servicio el job hace:
+    1) ```npm i``` (instala dependencias, incluye devDependencies)
+    2) ```npm run test``` (lanza la suite de tests)
+  - El workflow define el working-directory por job en services/${{ matrix.service }}.
+
+- Cómo ejecutar los tests localmente:
+  - Desde la raíz del repositorio, para api-main:
+```
+    cd services/api-main
+    npm i
+    npm run test
+```
+
+  - Para api-search:
+```
+    cd services/api-search
+    npm i
+    npm run test
+```
+  - Si quieres reproducir el entorno de CI (por ejemplo para que algunas suites detecten el modo CI): ```CI=true npm run test```
+
+- Notas:
+  - El workflow establece NODE 20; asegúrate de usar una versión de Node compatible localmente o usa nvm/volta para cambiar la versión.
+  - El cache de dependencias lo gestiona actions/setup-node en GitHub Actions para acelerar ejecuciones sucesivas.
