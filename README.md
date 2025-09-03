@@ -40,8 +40,8 @@ Tecnologías Utilizadas:
 - Redis como bus de mensajes; implementa el patrón de eventos de dominio (product.created, product.updated, product.approved).
 - DataLoader (paquete oficial de npm) para agrupar y cachear consultas en GraphQL, evitando el problema N+1.
 - Docker Compose para orquestar los servicios y dependencias.
-- Jest/pruebas unitarias (no incluidas en la base, pero la arquitectura permite añadirlas fácilmente).
 - Librería Result, Optional y AppError en src/shared para manejo funcional de errores y valores opcionales.
+- Jest para test unitarios
 
 api-main (GraphQL)
 - Dominio: implementa Product con campos como id, gtin, name, description, brand, manufacturer, netWeight, status, createdByRole, createdAt, updatedAt, version. También define AuditEntry para registrar los cambios (acción, campos modificados, quién y cuándo).
@@ -70,8 +70,8 @@ Instrucciones para ejecución (vía docker compose):
     ```docker compose up -d```
 
 Instrucciones para ejecución manual:
-1. En la raíz de cada una de las apis, contar con un archivo .env que contenga las mismas variables que .env.exmaple
-2. Contar con instancias de redis, elastic y mongodb ejecutandose en localhost por los puertos regulares de cada uno de los servicios, además de tener node y npm instalados.
+1. En la raíz de cada una de las apis, tener un archivo .env que contenga las mismas variables que .env.exmaple
+2. Tener instancias de redis, elastic y mongodb ejecutandose en localhost por los puertos regulares de cada uno de los servicios, además de tener node y npm instalados.
 3. Ejecutar ```npm i``` para cada una de las apis.
 4. Ejecutar ```npm run dev```(modo desarrollo) en cada una de las apis, primero en api-search y luego en api-main.
 ###### El motivo de seguir este orden es debido a que api-main cuando se ejeucta automáticame incluye datos para pruebas en BD y por tanto lanza eventos a api-search, es decir que api-search previamente debe estar up para poder procesar estos eventos.
